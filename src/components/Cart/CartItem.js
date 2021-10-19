@@ -3,20 +3,22 @@ import classes from "./CartItem.module.css";
 import { cartAction } from "../../store/cart-slice";
 
 const CartItem = (props) => {
+  const dispatch = useDispatch();
+
   const { title, quantity, total, price, id } = props.item;
 
-  const dispatch = useDispatch();
-  const incrementHandler = () => {
+  const removeItemHandler = () => {
+    dispatch(cartAction.removeItemFromCart(id));
+  };
+
+  const addItemHandler = () => {
     dispatch(
       cartAction.addItemToCart({
         id,
-        price,
         title,
+        price,
       })
     );
-  };
-  const removeHandler = () => {
-    dispatch(cartAction.removeItemFromCart(id));
   };
 
   return (
@@ -33,8 +35,8 @@ const CartItem = (props) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button onClick={removeHandler}>-</button>
-          <button onClick={incrementHandler}>+</button>
+          <button onClick={removeItemHandler}>-</button>
+          <button onClick={addItemHandler}>+</button>
         </div>
       </div>
     </li>
